@@ -30,3 +30,9 @@ custom app component getInitialProps
   context = {Component, ctx: {req, res}}
 
 dodanie getInitialProps do componentu powoduje, że getInitialProps nie wywołuje się automatycznie dla pozostałych page'y
+
+Code Sharing Options:
+
+- Direct Copy-Paste
+- Git Submodules
+- NPM Packages
