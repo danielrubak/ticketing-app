@@ -36,3 +36,9 @@ Code Sharing Options:
 - Direct Copy-Paste
 - Git Submodules
 - NPM Packages
+
+`docker build -t danielrubak/tickets .`
+
+## TO-DO
+
+- [ ] write better docs
