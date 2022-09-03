@@ -25,6 +25,12 @@ Auth service uses the JWT so you have to add a secret to your kubernetes environ
 kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf
 ```
 
+This app uses NATS for events management, you have to forward a 4222 port on kubernetes
+
+```bash
+kubectl port-forward <NATS_POD_NAME> 4222:4222
+```
+
 ## Installation
 
 Clone the project
