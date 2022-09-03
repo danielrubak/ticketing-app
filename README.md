@@ -1,29 +1,19 @@
 # Ticketing app
 
-## Prerequisites
-
-Make sure you have installed all of the following prerequisites on your development machine:
-
-- Git
-- Docker
-- Skaffold (for local Kubernetes development)
-
-Use Nginx or Traefik for requests forwarding or simply just edit the **hosts** file on your machine. All you have to do is add the following line
-
-```bash
+C:\Windows\System32\drivers\etc
+hosts
 127.0.0.1 ticketing.dev
-```
 
-You can find the **hosts** file at these paths:
+k create secret generic jwt-secret --from-literal=JWT_KEY=asdf
 
 - MacOS/Linux - /etc/hosts
 - Widnows - C:\Windows\System32\Drivers\etc\hosts
 
-Auth service uses the JWT so you have to add a secret to your kubernetes environment. If you want, you can replace the **asdf** string with anything.
+getInitialProps executed on the server:
 
-```bash
-kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf
-```
+- hard refresh of page
+- clicking link from different domain
+- typing URL into address bar
 
 This app uses NATS for events management, you have to forward a 4222 port on kubernetes
 
@@ -31,46 +21,31 @@ This app uses NATS for events management, you have to forward a 4222 port on kub
 kubectl port-forward <NATS_POD_NAME> 4222:4222
 ```
 
-## Installation
+getInitialProps executed on the client:
 
-Clone the project
+- navigating from one page to another while in the app
 
-```bash
-git clone https://github.com/danielrubak/ticketing-app.git
-```
+<http://SERVICENAME.NAMESPACE.svc.cluster.local/api/auth/currentuser>
 
-Go to the project directory
+NAMESPACE: kubectl get namespace => ingress-nginx
+SERVICENAME: kubectl get services -n ingress-nginx
 
-```bash
-cd ticketing-app
-```
+page component getInitialProps
+  context = { req, res }
 
-Start the application using skaffold
+custom app component getInitialProps
+  context = {Component, ctx: {req, res}}
 
-```bash
-skaffold dev
-```
+dodanie getInitialProps do componentu powoduje, że getInitialProps nie wywołuje się automatycznie dla pozostałych page'y
 
-Use your browser and navigate to
+Code Sharing Options:
 
-```bash
-ticketing.dev
-```
+- Direct Copy-Paste
+- Git Submodules
+- NPM Packages
 
-Because of the Nginx Ingress, all requests are using the HTTPS connection, so trying to access the above link throw you an unskippable warning **Your connection is not private**. To handle this, just type **thisisunsafe**.
+`docker build -t danielrubak/tickets .`
 
-## Services
+## TO-DO
 
-In this section you will find a short description of all services used in this project.
-
-- auth - everything related to user sing up, sign in and sign out
-- tickets - creating and editing tickets
-- orders - creating and aediting orders
-- expiration - watches for orders to be created, cancels them after 15 minutes
-- payments - handles credit card payments, cancels orders if payment fails and completes them if payment succeeds
-
-## Diagrams
-
-- section 5, lesson 109 - system diagram
-- section 5, lesson 116 - auth routes, page 12
-- section 9, lesson 179 - jwt token passing, page 04
+- [ ] write better docs
