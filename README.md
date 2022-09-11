@@ -63,6 +63,38 @@ In this section you will find a short description of all services used in this p
 - expiration - watches for orders to be created, cancels them after 15 minutes
 - payments - handles credit card payments, cancels orders if payment fails and completes them if payment succeeds
 
+## Events
+
+Events published by each service:
+
+| Service    | Events                             |
+| ---------- | ---------------------------------- |
+| tickets    | `ticket:created`, `ticket:updated` |
+| orders     | `order:created`, `order:cancelled` |
+| payments   | `charge:created`                   |
+| expiration | `expiration:complete`              |
+
+### ticket:created
+
+- orders service has to know that there are tickets that can be purchased
+- orders service has to know that exact price of each ticket
+
+### ticket:updated
+
+- orders service has to know that a ticket has been reserved
+- orders service has to know that price of a ticket has changed
+
+### order:created
+
+- tickets service has to know that one of its tickets has been reserved because not further edits to that ticket should be allowed
+- payments service has to know that there is a new order that a user might submit a payment for
+- expiration service has to know to start a timer to eventually time out this order
+
+### order:cancelled
+
+- tickets service has to know that coresponding order has been cancelled so the ticket can be reserved again
+- payments service has to know that any incoming payments for the order should be rejected due to cancelled status
+
 ## Diagrams
 
 - section 5, lesson 109 - system diagram
